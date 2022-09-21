@@ -1,0 +1,39 @@
+version: '3.9'
+
+volumes:
+  postgres_data:
+
+services:
+  billboard:
+    build:
+      context: .
+      dockerfile: src/Dockerfile
+    container_name: billboard
+    ports:
+      - '8080:8080'
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/billboard
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRINT_DATASOURCE_PASSWORD=password
+    volumes:
+      - '/etc/localtime:/etc/localtime:ro'
+
+  db:
+    image: 'postgres:13.7'
+    container_name: db
+    restart: always
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    expose:
+      - 5432
+    healthcheck:
+      test: [ 'CMD-SHELL', 'su postgres', '&&', 'pg_isready' ]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    environment:
+      POSTGRES_DB: billboard
+      POSTGRES_PASSWORD: password
