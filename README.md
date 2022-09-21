@@ -57,9 +57,14 @@ Assignment: develop a backend server in Spring to function as a bulletin board.
 
 </details>
 
-**Deployment on local machine:**
+**Deployment on local machine without tests:**
 ```
 docker run --rm -d -p 5432:5432 -e POSTGRES_DB=billboard -e POSTGRES_PASSWORD=password postgres && mvn spring-boot:run
+```
+
+**Tests on local machine:**
+```
+docker run --rm -d -p 5432:5432 -e POSTGRES_DB=billboard -e POSTGRES_PASSWORD=password postgres && mvn test
 ```
 
 **Deployment in docker-compose:**
