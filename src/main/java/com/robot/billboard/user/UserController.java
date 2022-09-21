@@ -48,9 +48,4 @@ public class UserController {
         }
         return ResponseEntity.ok(userService.loginUser(user));
     }
-
-    @GetMapping("/hello")
-    public ResponseEntity<?> sayHello() {
-        return ResponseEntity.ok("hello");
-    }
 }

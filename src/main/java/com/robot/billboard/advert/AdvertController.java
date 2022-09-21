@@ -175,7 +175,7 @@ public class AdvertController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         PersonDetails personDetails = (PersonDetails) authentication.getPrincipal();
         if (!Objects.equals(advertOwner.getId(), personDetails.getUser().getId())) {
-            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only advert owner cat reply");
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Only advert owner can reply");
         }
         if (Objects.equals(advertOwner.getId(), recipientId)) {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "You can't reply to yourself");
