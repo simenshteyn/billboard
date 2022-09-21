@@ -2,7 +2,6 @@ package com.robot.billboard.advert;
 
 import com.robot.billboard.user.User;
 import com.robot.billboard.user.UserStorage;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
