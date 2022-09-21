@@ -13,4 +13,6 @@ public interface AdvertStorage {
     List<Advert> getAdvertsByUserId(Long userId);
 
     Optional<Advert> deleteAdvertById(Long advertId);
+
+    List<Advert> getAllAdverts(int from, int size, boolean available);
 }
