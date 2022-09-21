@@ -1,6 +1,8 @@
 package com.robot.billboard.advert;
 
+import com.robot.billboard.validator.OffsetBasedPageRequest;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -49,5 +51,11 @@ public class PersistentAdvertStorage implements AdvertStorage {
         Optional<Advert> advert = advertRepository.findById(advertId);
         advert.ifPresent(a -> advertRepository.deleteById(a.getId()));
         return advert;
+    }
+
+    @Override
+    public List<Advert> getAllAdverts(int from, int size, boolean available) {
+        Pageable pageable = new OffsetBasedPageRequest(from, size);
+        return advertRepository.findAllByAvailableOrderByIdDesc(available, pageable);
     }
 }

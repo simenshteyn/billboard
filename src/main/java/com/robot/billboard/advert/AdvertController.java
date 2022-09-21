@@ -34,6 +34,15 @@ public class AdvertController {
         this.advertService = advertService;
     }
 
+    @Operation(summary = "Get all adverts with pagination and available filter")
+    @GetMapping("")
+    public ResponseEntity<?> getAllAdverts(
+            @RequestParam(required = false, defaultValue = "0") int from,
+            @RequestParam(required = false, defaultValue = "10") int size,
+            @RequestParam(required = false, defaultValue = "true") boolean available) {
+        return ResponseEntity.ok(advertService.getAllAdverts(from, size, available));
+    }
+
     @Operation(summary = "Get information about Advert by id")
     @GetMapping("/{advertId}")
     public ResponseEntity<?> getAdvertById(@PathVariable @Positive Long advertId) {

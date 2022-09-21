@@ -23,6 +23,10 @@ public class AdvertService {
         this.messageStorage = messageStorage;
     }
 
+    public List<Advert> getAllAdverts(int from, int size, boolean available) {
+        return advertStorage.getAllAdverts(from, size, available);
+    }
+
     public Advert getAdvertById(Long advertId) {
         return advertStorage.getAdvertById(advertId).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Unable to find advert")
