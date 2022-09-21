@@ -26,27 +26,7 @@ public class PersistentUserStorage implements UserStorage {
     }
 
     @Override
-    public Optional<User> getUserByEmail(String email) {
-        return userRepository.findByEmail(email);
-    }
-
-    @Override
-    public Optional<User> removeUser(Long userId) {
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<User> updateUser(Long userId, User user) {
-        return Optional.empty();
-    }
-
-    @Override
     public Optional<User> getUser(Long userId) {
-        return Optional.empty();
-    }
-
-    @Override
-    public List<User> getAllUsers() {
-        return null;
+        return userRepository.findById(userId);
     }
 }
