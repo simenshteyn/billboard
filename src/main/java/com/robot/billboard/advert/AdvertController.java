@@ -5,6 +5,7 @@ import com.robot.billboard.user.User;
 import com.robot.billboard.validator.OnCreate;
 import com.robot.billboard.validator.OnUpdate;
 import com.robot.billboard.validator.ValidationErrorBuilder;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,11 +34,13 @@ public class AdvertController {
         this.advertService = advertService;
     }
 
+    @Operation(summary = "Get information about Advert by id")
     @GetMapping("/{advertId}")
     public ResponseEntity<?> getAdvertById(@PathVariable @Positive Long advertId) {
         return ResponseEntity.ok(advertService.getAdvertById(advertId));
     }
 
+    @Operation(summary = "Get List of adverts, created by current User")
     @GetMapping("/my")
     public ResponseEntity<?> getMyAdverts() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -45,6 +48,7 @@ public class AdvertController {
         return ResponseEntity.ok(advertService.getAdvertsForUserById(personDetails.getUser().getId()));
     }
 
+    @Operation(summary = "Create new advert by current User")
     @PostMapping("")
     @Validated(OnCreate.class)
     public ResponseEntity<?> createAdvert(
@@ -61,6 +65,7 @@ public class AdvertController {
         return ResponseEntity.ok(advertService.createAdvert(advert));
     }
 
+    @Operation(summary = "Update Advert by id by advert owner")
     @PatchMapping("/{advertId}")
     @Validated(OnUpdate.class)
     public ResponseEntity<?> updateAdvert(
@@ -81,6 +86,7 @@ public class AdvertController {
         return ResponseEntity.ok(advertService.updateAdvert(advertId, advert));
     }
 
+    @Operation(summary = "Delete Advert by owner with advertId")
     @DeleteMapping("/{advertId}")
     public ResponseEntity<?> deleteAdvertById(@PathVariable @Positive Long advertId) {
         User advertOwner = advertService.getAdvertById(advertId).getOwner();
@@ -92,6 +98,7 @@ public class AdvertController {
         return ResponseEntity.ok(advertService.deleteAdvertById(advertId));
     }
 
+    @Operation(summary = "Send message to Advert Owner from current User")
     @PostMapping("/{advertId}/messages")
     @Validated(OnCreate.class)
     public ResponseEntity<?> messageAdvertById(
@@ -112,6 +119,7 @@ public class AdvertController {
         return ResponseEntity.ok(advertService.createAdvertMessage(advertId, personDetails.getUser().getId(), message));
     }
 
+    @Operation(summary = "Get all messages between current User and Advert Owner")
     @GetMapping("/{advertId}/messages")
     public ResponseEntity<?> getAdvertMessagesById(
             @PathVariable @Positive Long advertId) {
@@ -124,6 +132,7 @@ public class AdvertController {
         return ResponseEntity.ok(advertService.getAdvertMessagesById(advertId, personDetails.getUser().getId()));
     }
 
+    @Operation(summary = "Get all messages from User by Advert Owner")
     @GetMapping("/{advertId}/reply/{recipientId}")
     public ResponseEntity<?> getMessagesAndRepliesForAdvert(
             @PathVariable @Positive Long advertId,
@@ -137,6 +146,7 @@ public class AdvertController {
         return ResponseEntity.ok(advertService.getRepliesForAdvert(advertId, recipientId));
     }
 
+    @Operation(summary = "Get messages from all users by Advert Owner")
     @GetMapping("/{advertId}/reply/all")
     public ResponseEntity<?> getAllRepliesForAdvert(@PathVariable @Positive Long advertId) {
         User advertOwner = advertService.getAdvertById(advertId).getOwner();
@@ -148,6 +158,7 @@ public class AdvertController {
         return ResponseEntity.ok(advertService.getAllRepliesForAdvert(advertId));
     }
 
+    @Operation(summary = "Reply to User message by Advert Owner")
     @PostMapping("/{advertId}/reply/{recipientId}")
     public ResponseEntity<?> replyToAdvertMessage(
             HttpServletRequest request,

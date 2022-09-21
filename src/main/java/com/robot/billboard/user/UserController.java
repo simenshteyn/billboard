@@ -3,16 +3,14 @@ package com.robot.billboard.user;
 import com.robot.billboard.validator.OnCreate;
 import com.robot.billboard.validator.OnLogin;
 import com.robot.billboard.validator.ValidationErrorBuilder;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -29,6 +27,7 @@ public class UserController {
         this.userService = userService;
     }
 
+    @Operation(summary = "Sign up new user to work with API")
     @PostMapping("/signup")
     @Validated(OnCreate.class)
     public ResponseEntity<?> signupUser(HttpServletRequest request, @RequestBody @Valid User user, Errors errors) {
@@ -39,6 +38,7 @@ public class UserController {
         return ResponseEntity.ok(userService.signupUser(user));
     }
 
+    @Operation(summary = "Login user with email and password to obtain JWT access token")
     @PostMapping("/login")
     @Validated(OnLogin.class)
     public ResponseEntity<?> loginUser(HttpServletRequest request, @RequestBody @Valid User user, Errors errors) {
